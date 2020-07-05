@@ -8,4 +8,4 @@ jobs:
       - name: Build the stack
         run: docker-compose up -d
       - name: Test
-        run: curl -s --retry 10 --retry-connrefused http://localhost/v1/ping
+        run: curl -s --retry 10 --retry-connrefused http://localhost:80/v1/ping
