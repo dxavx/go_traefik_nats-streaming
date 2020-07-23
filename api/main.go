@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -19,7 +18,7 @@ func main() {
 	router.Run(":8080")
 }
 
+// Ping is function check health service
 func Ping(c *gin.Context) {
-	c.String(http.StatusOK, "ОК" )
-	fmt.Println("OK")
+	c.String(http.StatusOK, "ОК")
 }
