@@ -3,6 +3,7 @@
 ![Docker Compose Actions Workflow](https://github.com/AlexanderOkhrimenko/go_traefik/workflows/Docker%20Compose%20Actions%20Workflow/badge.svg?branch=master) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/AlexanderOkhrimenko/go_traefik_nats)](https://goreportcard.com/report/github.com/AlexanderOkhrimenko/go_traefik_nats)
 
+
 There is an example of using the “Traefik " load balancer and Go code with the ability to increase the number of instances of the container with the Go code (scaling ).  
 
 In the file __build.sh__ you can set the number of copies of the app: `docker-compose -f./docker-compose.yml up -d -- scale api=3`
