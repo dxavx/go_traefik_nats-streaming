@@ -31,7 +31,6 @@ func ping(c *gin.Context) {
 
 func connectNats(c *gin.Context) {
 	_, err := modules.ConnectNats()
-	fmt.Println(err)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "NATS Connect Error")
 	} else {
