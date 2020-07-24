@@ -22,9 +22,19 @@ func main() {
 
 // Ping is function check health service
 func ping(c *gin.Context) {
-	c.String(http.StatusOK, "ОК")
+	if modules.PingNats() != nil {
+		c.String(http.StatusInternalServerError, "NATS Ping Error")
+	} else {
+		c.String(http.StatusOK, "NATS Ping OK")
+	}
 }
 
 func connectNats(c *gin.Context) {
-	modules.ConnectNats()
+	_, err := modules.ConnectNats()
+	fmt.Println(err)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "NATS Connect Error")
+	} else {
+		c.String(http.StatusOK, "NATS Connect OK")
+	}
 }
