@@ -1,1 +1,5 @@
+### Ping
 GET http://localhost/v1/ping/
+
+### Connect NATS
+GET http://localhost/v1/connect/
