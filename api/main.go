@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/nats-io/nats.go"
 	"log"
 	"net/http"
+	"os"
+	"time"
 	"traefik_test/api/modules"
 )
 
@@ -44,23 +47,20 @@ func connectNats(c *gin.Context) {
 
 func pubRandomNats(c *gin.Context) {
 
+	var natsUrl = os.Getenv("NATS_URL")
+
 	var message = modules.RandomeString(10)
-	nc, err := modules.ConnectNats()
+	//
+	nc, err := nats.Connect(natsUrl, nats.Timeout(time.Second*10))
+	log.Println("Connected to " + natsUrl)
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		nc.Publish("update", []byte(message))
-		c.String(http.StatusOK, "Pub message : "+message)
+		err := nc.Publish("updates", []byte(message))
+		if err != nil {
+			log.Fatal(err)
+		} else {
+			c.String(http.StatusOK, "Pub message : "+message)
+		}
 	}
-
-	//defer nc.Close()
-	//if err != nil {
-	//	c.String(http.StatusInternalServerError, "NATS Connect Error")
-	//} else {
-	//	if err := nc.Publish("updates", []byte(message)); err != nil {
-	//		log.Fatal(err)
-	//	}
-	//	c.String(http.StatusOK, "Pub message : " + message)
-	//}
-
 }
