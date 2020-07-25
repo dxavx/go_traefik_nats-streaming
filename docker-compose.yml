@@ -18,6 +18,9 @@ services:
     env_file:
       - .env
     restart: always
+    depends_on:
+      - nats
+      - reverse-proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.api.rule=Host(`localhost`)
@@ -27,9 +30,10 @@ services:
     ports:
     - 8222:8222
     - 4222:4222
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.nats.rule=Host(`localhost`)
+    restart: always
+    depends_on:
+      - reverse-proxy
+
 
   subscriber:
     build:
@@ -37,6 +41,9 @@ services:
     env_file:
       - .env
     restart: always
+    depends_on:
+      - nats
+      - reverse-proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.subscriber.rule=Host(`localhost`)

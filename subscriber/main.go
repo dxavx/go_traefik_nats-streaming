@@ -6,15 +6,13 @@ import (
 	"log"
 	"os"
 	"sync"
-	"time"
 )
-
-var natsUrl = os.Getenv("NATS_URL")
 
 func main() {
 
-	nc, err := nats.Connect(natsUrl, nats.Timeout(time.Second*10))
-	log.Println("Connected to " + natsUrl)
+	var natsUrl = os.Getenv("NATS_URL")
+
+	nc, err := nats.Connect(natsUrl)
 	if err != nil {
 		log.Fatal(err)
 	}

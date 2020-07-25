@@ -31,8 +31,8 @@ func ConnectNats() (nc *nats.Conn, err error) {
 	return nc, err
 }
 
-// RandomeString
-func RandomeString(n int) string {
+// RandomString
+func RandomString(n int) string {
 
 	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 	s := make([]byte, n)
