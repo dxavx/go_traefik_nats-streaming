@@ -3,6 +3,7 @@ package modules
 import (
 	"github.com/nats-io/nats.go"
 	"log"
+	"math/rand"
 	"os"
 	"time"
 )
@@ -28,4 +29,18 @@ func ConnectNats() (nc *nats.Conn, err error) {
 	}
 	defer nc.Close()
 	return nc, err
+}
+
+// RandomeString
+func RandomeString(n int) string {
+
+	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	s := make([]byte, n)
+
+	for i := 0; i < n; i++ {
+		rand.Seed(time.Now().UTC().UnixNano())
+		t := rand.Intn(len(letters))
+		s[i] = letters[t]
+	}
+	return string(s)
 }

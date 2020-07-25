@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"traefik_test/api/modules"
@@ -31,6 +32,7 @@ func ping(c *gin.Context) {
 
 func connectNats(c *gin.Context) {
 	_, err := modules.ConnectNats()
+	fmt.Println(modules.RandomeString(10))
 	if err != nil {
 		c.String(http.StatusInternalServerError, "NATS Connect Error")
 	} else {
