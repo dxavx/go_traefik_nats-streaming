@@ -3,15 +3,14 @@ package modules
 import (
 	"github.com/nats-io/nats.go"
 	"log"
+	"os"
 	"time"
 )
 
-const (
-	URL_NATS = "http://nats:4222"
-)
+var natsUrl = os.Getenv("NATS_URL")
 
 func PingNats() (err error) {
-	nc, err := nats.Connect(URL_NATS, nats.PingInterval(20*time.Second), nats.MaxPingsOutstanding(5))
+	nc, err := nats.Connect(natsUrl, nats.PingInterval(20*time.Second), nats.MaxPingsOutstanding(5))
 	if err != nil {
 		log.Fatal(err)
 		return err
@@ -21,8 +20,8 @@ func PingNats() (err error) {
 }
 
 func ConnectNats() (nc *nats.Conn, err error) {
-	nc, err = nats.Connect(URL_NATS, nats.Timeout(time.Second*10))
-	log.Println("Connected to " + URL_NATS)
+	nc, err = nats.Connect(natsUrl, nats.Timeout(time.Second*10))
+	log.Println("Connected to " + natsUrl)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
