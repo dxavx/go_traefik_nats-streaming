@@ -45,10 +45,11 @@ func connectNats(c *gin.Context) {
 func pubRandomNats(c *gin.Context) {
 
 	var natsUrl = os.Getenv("NATS_URL")
+	//natsUrl = "http://localhost:4222"
 
 	var message = modules.RandomString(10)
 
-	nc, err := nats.Connect(natsUrl, nats.Timeout(time.Second*10))
+	nc, err := nats.Connect(natsUrl, nats.Timeout(time.Second*60))
 	log.Println("Connected to " + natsUrl)
 	if err != nil {
 		log.Fatal(err)

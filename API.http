@@ -6,3 +6,12 @@ GET http://localhost/v1/connect/
 
 ### Pub random message in "update"
 GET http://localhost/v1/pub/
+
+### Ping
+GET http://localhost:8080/v1/ping/
+
+### Connect NATS
+GET http://localhost:8080/v1/connect/
+
+### Pub random message in "update"
+GET http://localhost:8080/v1/pub
