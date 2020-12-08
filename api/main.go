@@ -57,30 +57,30 @@ func connectNats(c *gin.Context) {
 
 func pubRandomNats(c *gin.Context) {
 
-	var message = modules.RandomString(10)
+	//var message = modules.RandomString(10)
+	//
+	//err := nc.Publish("updates", []byte(message))
+	//if err != nil {
+	//	log.Fatal(err)
+	//} else {
+	//	c.String(http.StatusOK, "Pub message : "+message)
+	//}
 
-	err := nc.Publish("updates", []byte(message))
+	//time.Sleep(10 * time.Second)
+
+	err := nc.Publish("test", []byte("======= ======== ========"))
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		c.String(http.StatusOK, "Pub message : "+message)
+		c.String(http.StatusOK, "Pub message : "+"Publish test")
 	}
 
 	time.Sleep(10 * time.Second)
 
-	err = nc.Publish("updates", []byte("======= ======== ========"))
+	err = nc.Publish("test", []byte("======= ======== ======== ========== ==========="))
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		c.String(http.StatusOK, "Pub message : "+message)
-	}
-
-	time.Sleep(10 * time.Second)
-
-	err = nc.Publish("updates", []byte("======= ======== ======== ========== ==========="))
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		c.String(http.StatusOK, "Pub message : "+message)
+		c.String(http.StatusOK, "Pub message : "+"Publish-2 test")
 	}
 }
