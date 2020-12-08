@@ -10,11 +10,24 @@ import (
 	"traefik_test/api/modules"
 )
 
+var nc *nats.Conn
+
+func init() {
+
+	var natsUrl = os.Getenv("NATS_URL")
+	var err error
+
+	nc, err = nats.Connect(natsUrl, nats.Timeout(time.Second*60))
+	log.Println("Connected to " + natsUrl)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func main() {
 
 	router := gin.Default()
 
-	// Simple group: v1
 	v1 := router.Group("/v1")
 	{
 		v1.GET("/ping", ping)
@@ -44,21 +57,30 @@ func connectNats(c *gin.Context) {
 
 func pubRandomNats(c *gin.Context) {
 
-	var natsUrl = os.Getenv("NATS_URL")
-	//natsUrl = "http://localhost:4222"
-
 	var message = modules.RandomString(10)
 
-	nc, err := nats.Connect(natsUrl, nats.Timeout(time.Second*60))
-	log.Println("Connected to " + natsUrl)
+	err := nc.Publish("updates", []byte(message))
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		err := nc.Publish("updates", []byte(message))
-		if err != nil {
-			log.Fatal(err)
-		} else {
-			c.String(http.StatusOK, "Pub message : "+message)
-		}
+		c.String(http.StatusOK, "Pub message : "+message)
+	}
+
+	time.Sleep(10 * time.Second)
+
+	err = nc.Publish("updates", []byte("======= ======== ========"))
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		c.String(http.StatusOK, "Pub message : "+message)
+	}
+
+	time.Sleep(10 * time.Second)
+
+	err = nc.Publish("updates", []byte("======= ======== ======== ========== ==========="))
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		c.String(http.StatusOK, "Pub message : "+message)
 	}
 }
