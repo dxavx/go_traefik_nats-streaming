@@ -36,9 +36,9 @@ func RandomString(n int) string {
 
 	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 	s := make([]byte, n)
+	rand.Seed(time.Now().UTC().UnixNano())
 
 	for i := 0; i < n; i++ {
-		rand.Seed(time.Now().UTC().UnixNano())
 		t := rand.Intn(len(letters))
 		s[i] = letters[t]
 	}
