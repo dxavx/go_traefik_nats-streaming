@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 	"log"
 )
@@ -14,28 +15,29 @@ const (
 
 var snc stan.Conn
 
-func main() {
-
+func init() {
 	var err error
-	//snc, err = stan.Connect(ClusterName, ClientID, stan.NatsURL(nats.DefaultURL))
-	snc, err = stan.Connect(ClusterName, GenUUIDv4())
+	snc, err = stan.Connect(ClusterName, GenUUIDv4(), stan.NatsURL(nats.DefaultURL))
+	//snc, err = stan.Connect(ClusterName, GenUUIDv4())
 
 	if err != nil {
 		log.Fatalf("failed to create nates connection: %s", err.Error())
 	}
+}
+
+func main() {
 
 	var Subject = "my-subject-stan"
 	var Queue = "my-queue-stan"
 	//var Chan =    make(chan string)
 
-	sub, err := snc.QueueSubscribe(Subject, Queue, func(msg *stan.Msg) {
+	_, err := snc.QueueSubscribe(Subject, Queue, func(msg *stan.Msg) {
 		//Chan <- fmt.Sprintf("receive message in stan subscriber %s: %s", "name", string(msg.Data))
 		fmt.Println(string(msg.Data))
 
 		//if err := msg.Ack(); err != nil {
 		//	log.Fatalf("failed to send ack to stan in subscriber %s: %s", "name", err.Error())
 		//}
-		//}, stan.DurableName("q"))
 	}, stan.DurableName("q"))
 	if err != nil {
 		log.Fatalf("failed to create stan subsciber %s: %s", "name", err.Error())
@@ -43,10 +45,10 @@ func main() {
 
 	select {}
 
-	defer func() {
-		sub.Unsubscribe()
-		snc.Close()
-	}()
+	//defer func() {
+	//	sub.Unsubscribe()
+	//	snc.Close()
+	//}()
 
 }
 

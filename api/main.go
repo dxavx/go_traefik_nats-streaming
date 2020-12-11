@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 	"log"
 	"net/http"
@@ -20,8 +21,8 @@ var snc stan.Conn
 
 func init() {
 	var err error
-	//snc, err = stan.Connect(ClusterName, ClientID, stan.NatsURL(nats.DefaultURL))
-	snc, err = stan.Connect(ClusterName, ClientID)
+	snc, err = stan.Connect(ClusterName, ClientID, stan.NatsURL(nats.DefaultURL))
+	//snc, err = stan.Connect(ClusterName, ClientID)
 
 	if err != nil {
 		log.Fatalf("failed to create nates connection: %s", err.Error())
