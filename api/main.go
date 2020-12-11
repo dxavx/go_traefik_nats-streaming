@@ -2,25 +2,29 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/nats-io/nats.go"
+	"github.com/nats-io/stan.go"
 	"log"
 	"net/http"
-	"os"
 	"time"
 	"traefik_test/api/modules"
+	//"crypto/rand"
 )
 
-var nc *nats.Conn
+const (
+	PublishDelay = 100 * time.Millisecond
+	ClusterName  = "test-cluster"
+	ClientID     = "test-123"
+)
+
+var snc stan.Conn
 
 func init() {
-
-	var natsUrl = os.Getenv("NATS_URL")
 	var err error
+	//snc, err = stan.Connect(ClusterName, ClientID, stan.NatsURL(nats.DefaultURL))
+	snc, err = stan.Connect(ClusterName, ClientID)
 
-	nc, err = nats.Connect(natsUrl, nats.Timeout(time.Second*60))
-	log.Println("Connected to " + natsUrl)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("failed to create nates connection: %s", err.Error())
 	}
 }
 
@@ -37,7 +41,6 @@ func main() {
 	router.Run(":8080")
 }
 
-// Ping is function check health service
 func ping(c *gin.Context) {
 	if modules.PingNats() != nil {
 		c.String(http.StatusInternalServerError, "NATS Ping Error")
@@ -57,12 +60,14 @@ func connectNats(c *gin.Context) {
 
 func pubRandomNats(c *gin.Context) {
 
+	var Subject = "my-subject-stan"
 	var message = modules.RandomString(10)
 
-	err := nc.Publish("updates", []byte(message))
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		c.String(http.StatusOK, "Pub message : "+message)
+	if err := snc.Publish(Subject, []byte(message)); err != nil {
+		log.Fatalf("failed to publish to stan: %s", err.Error())
 	}
+
+	//time.Sleep(PublishDelay)
+	//snc.Close()
+	c.String(http.StatusOK, "Pub message : "+message)
 }
