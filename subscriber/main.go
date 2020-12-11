@@ -6,6 +6,7 @@ import (
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 	"log"
+	"os"
 )
 
 const (
@@ -16,8 +17,11 @@ const (
 var snc stan.Conn
 
 func init() {
+	var natsUrl = os.Getenv("NATS_URL")
+	fmt.Println(nats.DefaultURL)
+	fmt.Println(natsUrl)
 	var err error
-	snc, err = stan.Connect(ClusterName, GenUUIDv4(), stan.NatsURL(nats.DefaultURL))
+	snc, err = stan.Connect(ClusterName, GenUUIDv4(), stan.NatsURL(natsUrl))
 	//snc, err = stan.Connect(ClusterName, GenUUIDv4())
 
 	if err != nil {

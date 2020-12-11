@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 	"log"
 	"net/http"
+	"os"
 	"time"
 	"traefik_test/api/modules"
 	//"crypto/rand"
@@ -20,8 +20,9 @@ const (
 var snc stan.Conn
 
 func init() {
+	var natsUrl = os.Getenv("NATS_URL")
 	var err error
-	snc, err = stan.Connect(ClusterName, ClientID, stan.NatsURL(nats.DefaultURL))
+	snc, err = stan.Connect(ClusterName, ClientID, stan.NatsURL(natsUrl))
 	//snc, err = stan.Connect(ClusterName, ClientID)
 
 	if err != nil {
