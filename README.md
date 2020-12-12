@@ -4,7 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/AlexanderOkhrimenko/go_traefik_nats)](https://goreportcard.com/report/github.com/AlexanderOkhrimenko/go_traefik_nats)
 
 
-There is an example of using the “Traefik"  load balancer,  message broker "NATS" and Go code with the ability to increase the number of instances of the container with the Go code (scaling ).  
+There is an example of using the “Traefik"  load balancer,  message broker "NATS-Streaming" and Go code with the ability to increase the number of instances of the container with the Go code (scaling ).  
 
 In the file __build.sh__ you can set the number of copies of the app: `docker-compose -f./docker-compose.yml up -d -- scale subscriber=3`
 
@@ -24,7 +24,7 @@ Stop: ``` bash purge.sh```
 ## Go API + Traefik (Load Balancer) + NATS-Streaming
 
 
-Пример использования балансировщика “Traefik“, брокера сообщений "NATS" и кода на Go с возможностью увеличивать количество экземпляров контейнера с кодом Go ( скейлинг ).  
+Пример использования балансировщика “Traefik“, брокера сообщений "NATS-Streaming" и кода на Go с возможностью увеличивать количество экземпляров контейнера с кодом Go ( скейлинг ).  
 
 В файле __build.sh__ вы можете указать количество копий приложения: `docker-compose -f./docker-compose.yml up -d -- scale subscriber=3`
 
