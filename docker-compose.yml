@@ -2,27 +2,45 @@ version: '3.7'
 
 services:
 
+  reverse-proxy:
+    image: library/traefik:v2.3
+    command: --api.insecure=true --providers.docker
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
   api:
     build:
       context: api
     ports:
-    - 8080:8080
+    - 8080
     depends_on:
+      - reverse-proxy
       - nats-server
       - nats-streaming-server
     env_file:
       - .env
     restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`localhost`)
 
   subscriber:
     build:
       context: subscriber
     depends_on:
+      - reverse-proxy
       - nats-server
       - nats-streaming-server
     env_file:
       - .env
     restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.subscriber.rule=Host(`localhost`)
 
   nats-server:
     image: library/nats:2.1.9-alpine
@@ -32,6 +50,8 @@ services:
       - 4222:4222
       - 8222:8222
       - 6222:6222
+    depends_on:
+      - reverse-proxy
 
 
   nats-streaming-server:
@@ -40,8 +60,10 @@ services:
     container_name: nats-streaming-server
     restart: always
     depends_on:
+      - reverse-proxy
       - nats-server
     command: nats-streaming-server --nats_server nats://nats-server:4222
+
 
 
   #whoami:
