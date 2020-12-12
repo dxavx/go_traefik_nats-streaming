@@ -31,33 +31,19 @@ func init() {
 }
 
 func main() {
+	setupServer().Run()
+}
 
+func setupServer() *gin.Engine {
 	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
 
 	v1 := router.Group("/v1")
 	{
-		v1.GET("/ping", ping)
-		v1.GET("/connect", connectNats)
 		v1.GET("/pub", pubRandomNats)
 	}
-	router.Run(":8080")
-}
-
-func ping(c *gin.Context) {
-	if modules.PingNats() != nil {
-		c.String(http.StatusInternalServerError, "NATS Ping Error")
-	} else {
-		c.String(http.StatusOK, "NATS Ping OK")
-	}
-}
-
-func connectNats(c *gin.Context) {
-	_, err := modules.ConnectNats()
-	if err != nil {
-		c.String(http.StatusInternalServerError, "NATS Connect Error")
-	} else {
-		c.String(http.StatusOK, "NATS Connect OK")
-	}
+	//router.Run(":8080")
+	return router
 }
 
 func pubRandomNats(c *gin.Context) {
@@ -71,5 +57,5 @@ func pubRandomNats(c *gin.Context) {
 
 	//time.Sleep(PublishDelay)
 	//snc.Close()
-	c.String(http.StatusOK, "Pub message : "+message)
+	c.String(http.StatusOK, message)
 }

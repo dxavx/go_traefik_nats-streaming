@@ -1,18 +1,18 @@
 package modules
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestRandomeString(t *testing.T) {
+func TestRandomString(t *testing.T) {
 	var lenString = 10
-	RandomeString(lenString)
-	assert.Len(t, RandomeString(lenString), lenString)
+	s := RandomString(lenString)
+	fmt.Println(s, len(s))
+	assert.Len(t, s, lenString)
 }
 
-func BenchmarkRandomeString(b *testing.B) {
-	var lenString = 10
-	RandomeString(lenString)
-	assert.Len(b, RandomeString(lenString), lenString)
+func BenchmarkRandomString(b *testing.B) {
+	RandomString(10)
 }

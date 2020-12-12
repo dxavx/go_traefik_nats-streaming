@@ -1,41 +1,32 @@
 package main
 
 import (
-	"bytes"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
-	"log"
 	"net/http"
+	"net/http/httptest"
 	"testing"
-	"time"
 )
 
-const END_POINT_PING = "http://localhost/v1/ping"
-const TIME_OUT = 10
+const endPointPub = "/v1/pub"
 
 func TestPing(t *testing.T) {
 
-	client := http.Client{Timeout: time.Second * TIME_OUT}
-	var requestBody []byte
-	request, err := http.NewRequest("GET", END_POINT_PING, bytes.NewBuffer(requestBody))
+	ts := httptest.NewServer(setupServer())
+	defer ts.Close()
 
+	resp, err := http.Get(fmt.Sprintf("%s"+endPointPub, ts.URL))
 	if err != nil {
-		log.Fatal(err)
+		t.Fatalf("error GET request  %v", err)
 	}
 
-	resp, err := client.Do(request)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	defer resp.Body.Close()
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatalf("error body %v", body)
 	}
-
-	log.Println(string(body))
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Equal(t, 10, len(body))
 
 }

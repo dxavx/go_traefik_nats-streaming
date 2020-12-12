@@ -44,7 +44,6 @@ services:
     command: nats-streaming-server --nats_server nats://nats-server:4222
 
 
-
   #whoami:
   #  image: containous/whoami
   #  labels:
