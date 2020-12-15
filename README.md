@@ -10,8 +10,6 @@ In the file __build.sh__ you can set the number of copies of the app: `docker-co
 
 Start: ``` bash build.sh ```
 
-Ping NATS  ``` http://localhost/v1/ping ```
-
 Publishing a random string ``` http://localhost/v1/pub ```
 
 You can view the message in the subscriber container console
@@ -29,8 +27,6 @@ Stop: ``` bash purge.sh```
 В файле __build.sh__ вы можете указать количество копий приложения: `docker-compose -f./docker-compose.yml up -d -- scale subscriber=3`
 
 Start: ``` bash build.sh ```
-
-Ping NATS  ``` http://localhost/v1/ping ```
 
 Публикация сучайно строки ``` http://localhost/v1/pub ```
 
