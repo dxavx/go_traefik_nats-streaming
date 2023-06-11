@@ -1,7 +1,7 @@
 ## Go API + Traefik (Load Balancer) + NATS-Streaming
 
-![Docker Compose Actions Workflow](https://github.com/AlexanderOkhrimenko/go_traefik/workflows/Docker%20Compose%20Actions%20Workflow/badge.svg?branch=master) 
-[![Go Report Card](https://goreportcard.com/badge/github.com/AlexanderOkhrimenko/go_traefik_nats)](https://goreportcard.com/report/github.com/AlexanderOkhrimenko/go_traefik_nats)
+![Docker Compose Actions Workflow](https://github.com/dxavx/go_traefik_nats-streaming/workflows/Docker%20Compose%20Actions%20Workflow/badge.svg?branch=master) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/dxavx/go_traefik_nats-streaming)](https://goreportcard.com/report/github.com/dxavx/go_traefik_nats-streaming)
 
 
 There is an example of using the “Traefik"  load balancer,  message broker "NATS-Streaming" and Go code with the ability to increase the number of instances of the container with the Go code (scaling ).  

@@ -3,15 +3,15 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
-	"github.com/nats-io/nats.go"
-	"github.com/nats-io/stan.go"
 	"log"
 	"os"
+
+	"github.com/nats-io/nats.go"
+	"github.com/nats-io/stan.go"
 )
 
 const (
 	ClusterName = "test-cluster"
-	ClientID    = "test-1234"
 )
 
 var snc stan.Conn

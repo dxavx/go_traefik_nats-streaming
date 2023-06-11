@@ -6,8 +6,8 @@ services:
     image: library/traefik:v2.3
     command: --api.insecure=true --providers.docker
     ports:
-      - 80:80
-      - 8080:8080
+      - "80:80"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -47,9 +47,9 @@ services:
     hostname: nats-server
     container_name: nats-server
     ports:
-      - 4222:4222
-      - 8222:8222
-      - 6222:6222
+      - "4222:4222"
+      - "8222:8222"
+      - "6222:6222"
     depends_on:
       - reverse-proxy
 
